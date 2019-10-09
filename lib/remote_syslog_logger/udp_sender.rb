@@ -8,7 +8,7 @@ module RemoteSyslogLogger
       @remote_port     = remote_port
       @whinyerrors     = options[:whinyerrors]
       @max_size        = options[:max_size]
-      
+
       @socket = UDPSocket.new
       @packet = SyslogProtocol::Packet.new
 
@@ -20,7 +20,7 @@ module RemoteSyslogLogger
       @packet.severity = options[:severity] || 'notice'
       @packet.tag      = options[:program]  || "#{File.basename($0)}[#{$$}]"
     end
-    
+
     def transmit(message)
       message.split(/\r?\n/).each do |line|
         begin
@@ -35,10 +35,10 @@ module RemoteSyslogLogger
         end
       end
     end
-    
+
     # Make this act a little bit like an `IO` object
     alias_method :write, :transmit
-    
+
     def close
       @socket.close
     end
